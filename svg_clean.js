@@ -28,13 +28,15 @@ config.watchedFolders.forEach((e, i) => {
     if (filename) {
       switch(eventType) {
         case 'change', 'rename': {
-          fs.open(filename, 'r', (err, fd) => {
-          if (!err) {
-            doFile(filename, e.outputFolder || config.defaultOutputFolder);
-          } else {
-            console.dir(err);
-          }
-        });
+          const fullInFilename = `${e.inputFolder}${filename}`;
+          const fullOutFilename = `${e.outputFolder || config.defaultOutputFolder}${filename}`;
+          fs.open(fullInFilename, 'r', (err, fd) => {
+            if (!err) {
+              doFile(fullInFilename, fullOutFilename);
+            } else {
+              console.log(err);
+            }
+          });
         }
       }
     }
@@ -43,15 +45,13 @@ config.watchedFolders.forEach((e, i) => {
 });
 
 // utilities
-const doFile = (filename, outFolder) => {
-  console.log(svgFilenameSpec.test(filename));
-  if (svgFilenameSpec.test(filename)) {
-    console.log(langProcessing, filename);
-    fs.readFile(filename, function(err, data) {
-      const result = stripAttributes(data);
-      fs.writeFile(outFolder + filename, result, 'utf8', (err) => {
+const doFile = (inFile, outFile) => {
+  if (svgFilenameSpec.test(inFile)) {
+    console.log(langProcessing, inFile);
+    fs.readFile(inFile, function(err, data) {
+      fs.writeFile(outFile, stripAttributes(data), 'utf8', (err) => {
         if (err) throw err;
-        console.log(langFinished, filename);
+        console.log(`  ${langFinished}`);
       });
 
     });
