@@ -1,0 +1,12 @@
+{
+  "name": "watcher",
+  "version": "0.0.0",
+  "description": "SVG Cleaner",
+  "main": "svg_clean.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "John Valentine",
+  "author-web": "johnvalentine.co.uk",
+  "license": "MIT"
+}
