@@ -8,6 +8,7 @@ const fs = require('fs');
 const svgFilenameSpec = new RegExp(/.+\.svg$/i);
 
 // language strings
+const langWatching = 'Watching';
 const langProcessing = 'Processing:';
 const langFinished = 'Finished';
 
@@ -41,13 +42,13 @@ config.watchedFolders.forEach((e, i) => {
       }
     }
   });
-  console.log(`Watching: ${e.inputFolder}`);
+  console.log(`${langWatching}: ${e.inputFolder}`);
 });
 
 // utilities
 const doFile = (inFile, outFile) => {
   if (svgFilenameSpec.test(inFile)) {
-    console.log(langProcessing, inFile);
+    console.log(`${langProcessing}: ${inFile}`);
     fs.readFile(inFile, function(err, data) {
       fs.writeFile(outFile, stripAttributes(data), 'utf8', (err) => {
         if (err) throw err;
